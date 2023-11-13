@@ -10,7 +10,6 @@ enum ErrorShowType {
   NOTIFICATION = 3,
   REDIRECT = 9,
 }
-
 // 与后端约定的响应数据格式
 interface ResponseStructure {
   success: boolean;

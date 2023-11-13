@@ -60,14 +60,11 @@ export async function rule(
   });
 }
 
-/** 更新规则 PUT /api/rule */
+/** 新建规则 PUT /api/rule */
 export async function updateRule(options?: { [key: string]: any }) {
   return request<API.RuleListItem>('/api/rule', {
-    method: 'POST',
-    data: {
-      method: 'update',
-      ...(options || {}),
-    }
+    method: 'PUT',
+    ...(options || {}),
   });
 }
 
@@ -75,20 +72,14 @@ export async function updateRule(options?: { [key: string]: any }) {
 export async function addRule(options?: { [key: string]: any }) {
   return request<API.RuleListItem>('/api/rule', {
     method: 'POST',
-    data: {
-      method: 'post',
-      ...(options || {}),
-    }
+    ...(options || {}),
   });
 }
 
 /** 删除规则 DELETE /api/rule */
 export async function removeRule(options?: { [key: string]: any }) {
   return request<Record<string, any>>('/api/rule', {
-    method: 'POST',
-    data: {
-      method: 'delete',
-      ...(options || {}),
-    }
+    method: 'DELETE',
+    ...(options || {}),
   });
 }

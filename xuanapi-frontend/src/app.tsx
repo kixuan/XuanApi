@@ -1,14 +1,14 @@
-import {Footer, Question, SelectLang, AvatarDropdown, AvatarName} from '@/components';
+import Footer from '@/components/Footer';
+import {Question} from '@/components/RightContent';
 import {LinkOutlined} from '@ant-design/icons';
 import type {Settings as LayoutSettings} from '@ant-design/pro-components';
 import {SettingDrawer} from '@ant-design/pro-components';
 import type {RunTimeLayoutConfig} from '@umijs/max';
 import {history, Link} from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
+import {AvatarDropdown, AvatarName} from './components/RightContent/AvatarDropdown';
 import {errorConfig} from './requestErrorConfig';
-import {currentUser as queryCurrentUser} from '@/services/ant-design-pro/api';
-import React from 'react';
-
+import {currentUser as queryCurrentUser} from './services/ant-design-pro/api';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
@@ -51,7 +51,7 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => {
   return {
-    actionsRender: () => [<Question key="doc"/>, <SelectLang key="SelectLang"/>],
+    actionsRender: () => [<Question key="doc"/>],
     avatarProps: {
       src: initialState?.currentUser?.avatar,
       title: <AvatarName/>,
@@ -70,7 +70,7 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
         history.push(loginPath);
       }
     },
-    bgLayoutImgList: [
+    layoutBgImgList: [
       {
         src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/D2LWSqNny4sAAAAAAAAAAAAAFl94AQBr',
         left: 85,
@@ -107,19 +107,17 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
       return (
         <>
           {children}
-          {isDev && (
-            <SettingDrawer
-              disableUrlParams
-              enableDarkTheme
-              settings={initialState?.settings}
-              onSettingChange={(settings) => {
-                setInitialState((preInitialState) => ({
-                  ...preInitialState,
-                  settings,
-                }));
-              }}
-            />
-          )}
+          <SettingDrawer
+            disableUrlParams
+            enableDarkTheme
+            settings={initialState?.settings}
+            onSettingChange={(settings) => {
+              setInitialState((preInitialState) => ({
+                ...preInitialState,
+                settings,
+              }));
+            }}
+          />
         </>
       );
     },
