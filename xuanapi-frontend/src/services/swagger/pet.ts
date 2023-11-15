@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import {request} from '@umijs/max';
+import { request } from '@umijs/max';
 
 /** Update an existing pet PUT /pet */
 export async function updatePet(body: API.Pet, options?: { [key: string]: any }) {
@@ -32,10 +32,10 @@ export async function getPetById(
   params: API.getPetByIdParams,
   options?: { [key: string]: any },
 ) {
-  const {petId: param0, ...queryParams} = params;
+  const { petId: param0, ...queryParams } = params;
   return request<API.Pet>(`/pet/${param0}`, {
     method: 'GET',
-    params: {...queryParams},
+    params: { ...queryParams },
     ...(options || {}),
   });
 }
@@ -47,7 +47,7 @@ export async function updatePetWithForm(
   body: { name?: string; status?: string },
   options?: { [key: string]: any },
 ) {
-  const {petId: param0, ...queryParams} = params;
+  const { petId: param0, ...queryParams } = params;
   const formData = new FormData();
 
   Object.keys(body).forEach((ele) => {
@@ -63,7 +63,7 @@ export async function updatePetWithForm(
 
   return request<any>(`/pet/${param0}`, {
     method: 'POST',
-    params: {...queryParams},
+    params: { ...queryParams },
     data: formData,
     ...(options || {}),
   });
@@ -78,11 +78,11 @@ export async function deletePet(
   },
   options?: { [key: string]: any },
 ) {
-  const {petId: param0, ...queryParams} = params;
+  const { petId: param0, ...queryParams } = params;
   return request<any>(`/pet/${param0}`, {
     method: 'DELETE',
     headers: {},
-    params: {...queryParams},
+    params: { ...queryParams },
     ...(options || {}),
   });
 }
@@ -95,7 +95,7 @@ export async function uploadFile(
   file?: File,
   options?: { [key: string]: any },
 ) {
-  const {petId: param0, ...queryParams} = params;
+  const { petId: param0, ...queryParams } = params;
   const formData = new FormData();
 
   if (file) {
@@ -115,7 +115,7 @@ export async function uploadFile(
 
   return request<API.ApiResponse>(`/pet/${param0}/uploadImage`, {
     method: 'POST',
-    params: {...queryParams},
+    params: { ...queryParams },
     data: formData,
     requestType: 'form',
     ...(options || {}),

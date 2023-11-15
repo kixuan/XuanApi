@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import {request} from '@umijs/max';
+import { request } from '@umijs/max';
 
 /** Returns pet inventories by status Returns a map of status codes to quantities GET /store/inventory */
 export async function getInventory(options?: { [key: string]: any }) {
@@ -25,10 +25,10 @@ export async function getOrderById(
   params: API.getOrderByIdParams,
   options?: { [key: string]: any },
 ) {
-  const {orderId: param0, ...queryParams} = params;
+  const { orderId: param0, ...queryParams } = params;
   return request<API.Order>(`/store/order/${param0}`, {
     method: 'GET',
-    params: {...queryParams},
+    params: { ...queryParams },
     ...(options || {}),
   });
 }
@@ -39,10 +39,10 @@ export async function deleteOrder(
   params: API.deleteOrderParams,
   options?: { [key: string]: any },
 ) {
-  const {orderId: param0, ...queryParams} = params;
+  const { orderId: param0, ...queryParams } = params;
   return request<any>(`/store/order/${param0}`, {
     method: 'DELETE',
-    params: {...queryParams},
+    params: { ...queryParams },
     ...(options || {}),
   });
 }

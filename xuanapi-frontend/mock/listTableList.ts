@@ -1,6 +1,6 @@
-import {Request, Response} from 'express';
+import { Request, Response } from 'express';
 import moment from 'moment';
-import {parse} from 'url';
+import { parse } from 'url';
 
 // mock tableListDataSource
 const genList = (current: number, pageSize: number) => {
@@ -37,12 +37,12 @@ function getRule(req: Request, res: Response, u: string) {
   if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
     realUrl = req.url;
   }
-  const {current = 1, pageSize = 10} = req.query;
+  const { current = 1, pageSize = 10 } = req.query;
   const params = parse(realUrl, true).query as unknown as API.PageParams &
     API.RuleListItem & {
-    sorter: any;
-    filter: any;
-  };
+      sorter: any;
+      filter: any;
+    };
 
   let dataSource = [...tableListDataSource].slice(
     ((current as number) - 1) * (pageSize as number),
@@ -52,18 +52,16 @@ function getRule(req: Request, res: Response, u: string) {
     const sorter = JSON.parse(params.sorter);
     dataSource = dataSource.sort((prev, next) => {
       let sortNumber = 0;
-      (Object.keys(sorter) as Array<keyof API.RuleListItem>).forEach((key) => {
-        let nextSort = next?.[key] as number;
-        let preSort = prev?.[key] as number;
+      Object.keys(sorter).forEach((key) => {
         if (sorter[key] === 'descend') {
-          if (preSort - nextSort > 0) {
+          if (prev[key] - next[key] > 0) {
             sortNumber += -1;
           } else {
             sortNumber += 1;
           }
           return;
         }
-        if (preSort - nextSort > 0) {
+        if (prev[key] - next[key] > 0) {
           sortNumber += 1;
         } else {
           sortNumber += -1;
@@ -78,7 +76,7 @@ function getRule(req: Request, res: Response, u: string) {
     };
     if (Object.keys(filter).length > 0) {
       dataSource = dataSource.filter((item) => {
-        return (Object.keys(filter) as Array<keyof API.RuleListItem>).some((key) => {
+        return Object.keys(filter).some((key) => {
           if (!filter[key]) {
             return true;
           }
@@ -112,7 +110,7 @@ function postRule(req: Request, res: Response, u: string, b: Request) {
   }
 
   const body = (b && b.body) || req.body;
-  const {method, name, desc, key} = body;
+  const { method, name, desc, key } = body;
 
   switch (method) {
     /* eslint no-case-declarations:0 */
@@ -148,8 +146,8 @@ function postRule(req: Request, res: Response, u: string, b: Request) {
         let newRule = {};
         tableListDataSource = tableListDataSource.map((item) => {
           if (item.key === key) {
-            newRule = {...item, desc, name};
-            return {...item, desc, name};
+            newRule = { ...item, desc, name };
+            return { ...item, desc, name };
           }
           return item;
         });

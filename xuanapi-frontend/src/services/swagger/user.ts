@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import {request} from '@umijs/max';
+import { request } from '@umijs/max';
 
 /** Create user This can only be done by the logged in user. POST /user */
 export async function createUser(body: API.User, options?: { [key: string]: any }) {
@@ -17,10 +17,10 @@ export async function getUserByName(
   params: API.getUserByNameParams,
   options?: { [key: string]: any },
 ) {
-  const {username: param0, ...queryParams} = params;
+  const { username: param0, ...queryParams } = params;
   return request<API.User>(`/user/${param0}`, {
     method: 'GET',
-    params: {...queryParams},
+    params: { ...queryParams },
     ...(options || {}),
   });
 }
@@ -32,10 +32,10 @@ export async function updateUser(
   body: API.User,
   options?: { [key: string]: any },
 ) {
-  const {username: param0, ...queryParams} = params;
+  const { username: param0, ...queryParams } = params;
   return request<any>(`/user/${param0}`, {
     method: 'PUT',
-    params: {...queryParams},
+    params: { ...queryParams },
     data: body,
     ...(options || {}),
   });
@@ -47,10 +47,10 @@ export async function deleteUser(
   params: API.deleteUserParams,
   options?: { [key: string]: any },
 ) {
-  const {username: param0, ...queryParams} = params;
+  const { username: param0, ...queryParams } = params;
   return request<any>(`/user/${param0}`, {
     method: 'DELETE',
-    params: {...queryParams},
+    params: { ...queryParams },
     ...(options || {}),
   });
 }

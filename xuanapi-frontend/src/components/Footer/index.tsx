@@ -1,7 +1,6 @@
-import {GithubOutlined} from '@ant-design/icons';
-import {DefaultFooter} from '@ant-design/pro-components';
+import { GithubOutlined } from '@ant-design/icons';
+import { DefaultFooter } from '@ant-design/pro-components';
 import '@umijs/max';
-import React from 'react';
 const Footer: React.FC = () => {
   const defaultMessage = '蚂蚁集团体验技术部出品';
   const currentYear = new Date().getFullYear();
@@ -13,20 +12,20 @@ const Footer: React.FC = () => {
       copyright={`${currentYear} ${defaultMessage}`}
       links={[
         {
-          key: 'Ant Design Pro',
-          title: 'Ant Design Pro',
+          key: '鱼皮接口',
+          title: '鱼皮接口',
           href: 'https://pro.ant.design',
           blankTarget: true,
         },
         {
           key: 'github',
-          title: <GithubOutlined/>,
+          title: <GithubOutlined />,
           href: 'https://github.com/ant-design/ant-design-pro',
           blankTarget: true,
         },
         {
-          key: 'Ant Design',
-          title: 'Ant Design',
+          key: '鱼皮接口',
+          title: '鱼皮接口',
           href: 'https://ant.design',
           blankTarget: true,
         },
