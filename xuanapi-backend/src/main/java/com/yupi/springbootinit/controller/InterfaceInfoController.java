@@ -32,7 +32,7 @@ import java.util.List;
  * 帖子接口
  */
 @RestController
-@RequestMapping("/interface")
+@RequestMapping("/interfaceInfo")
 @Slf4j
 public class InterfaceInfoController {
 
@@ -59,7 +59,7 @@ public class InterfaceInfoController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         InterfaceInfo interfaceInfo = new InterfaceInfo();
-        BeanUtils.copyProperties(interfaceAddRequest, false);
+        BeanUtils.copyProperties(interfaceAddRequest, interfaceInfo);
         InterfaceInfoService.validInterfaceInfo(interfaceInfo, true);
         User loginUser = userService.getLoginUser(request);
         interfaceInfo.setUserId(loginUser.getId());
@@ -107,7 +107,7 @@ public class InterfaceInfoController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         InterfaceInfo interfaceInfo = new InterfaceInfo();
-        BeanUtils.copyProperties(interfaceUpdateRequest, false);
+        BeanUtils.copyProperties(interfaceUpdateRequest, interfaceInfo);
         // 参数校验
         InterfaceInfoService.validInterfaceInfo(interfaceInfo, false);
         long id = interfaceUpdateRequest.getId();
