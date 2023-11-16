@@ -15,4 +15,14 @@ public class UserLoginRequest implements Serializable {
     private String userAccount;
 
     private String userPassword;
+
+    /**
+     * accessKey
+     */
+    private String accessKey;
+
+    /**
+     * secretKey
+     */
+    private String secretKey;
 }

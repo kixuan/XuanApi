@@ -30,6 +30,16 @@ public class User implements Serializable {
     private String userPassword;
 
     /**
+     * accessKey
+     */
+    private String accessKey;
+
+    /**
+     * secretKey
+     */
+    private String secretKey;
+
+    /**
      * 开放平台id
      */
     private String unionId;
