@@ -1,6 +1,6 @@
 {
-  "name": "鱼皮接口",
-  "short_name": "鱼皮接口",
+  "name": "炫仔接口",
+  "short_name": "炫仔接口",
   "display": "standalone",
   "start_url": "./?utm_source=homescreen",
   "theme_color": "#002140",

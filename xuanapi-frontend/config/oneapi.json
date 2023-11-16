@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "鱼皮接口",
+    "title": "炫仔接口",
     "version": "1.0.0"
   },
   "servers": [

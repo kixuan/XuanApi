@@ -15,13 +15,19 @@ class XuanapiInterfaceApplicationTests {
     @Test
         // 测试这个前记得先运行xuanapi-interface项目
     void contextLoads() {
-        String result = xuanApiClient.getNameByGet("xuanapi");
+        // 1. GET
+        String nameByGet = xuanApiClient.getNameByGet("xuanapi-GET");
+        System.out.println(nameByGet);
+
+        // 2.POST+URL
+        String nameByPost = xuanApiClient.getNameByPost("xuanapi-POST1");
+        System.out.println(nameByPost);
+
+        //3.POST+JSON
         User user = new User();
-        user.setUsername("xuanzai");
-        // 调用xuanApiClient的getUserNameByPost方法，并传入user对象作为参数，将返回的结果赋值给usernameByPost变量
-        String usernameByPost = xuanApiClient.getUserNameByPost(user);
-        System.out.println(result);
-        System.out.println(usernameByPost);
+        user.setUsername("xuanzai-POST2");
+        String userNameByPost = xuanApiClient.getUserNameByPost(user);
+        System.out.println(userNameByPost);
     }
 
 }

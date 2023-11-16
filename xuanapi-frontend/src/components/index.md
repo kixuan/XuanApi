@@ -66,10 +66,10 @@ export default () => {
       placeholder="站内搜索"
       defaultValue="umi ui"
       options={[
-        { label: '鱼皮接口', value: '鱼皮接口' },
+        { label: '炫仔接口', value: '炫仔接口' },
         {
-          label: '鱼皮接口',
-          value: '鱼皮接口',
+          label: '炫仔接口',
+          value: '炫仔接口',
         },
         {
           label: 'Pro Table',
@@ -233,8 +233,8 @@ RightContent 是以上几个组件的组合，同时新增了 plugins 的 `Selec
     options={[
       { label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>, value: 'umi ui' },
       {
-        label: <a href="next.ant.design">鱼皮接口</a>,
-        value: '鱼皮接口',
+        label: <a href="next.ant.design">炫仔接口</a>,
+        value: '炫仔接口',
       },
       {
         label: <a href="https://protable.ant.design/">Pro Table</a>,

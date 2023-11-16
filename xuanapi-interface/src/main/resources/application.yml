@@ -6,4 +6,4 @@ server:
 xuanapi:
   client:
     access-key: "123"
-    secret-key: "321"
+    secret-key: "123"

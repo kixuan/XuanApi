@@ -46,18 +46,14 @@ public class XuanApiClient {
     public String getNameByGet(String name) {
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("name", name);
-        String result = HttpUtil.get("http://localhost:8123/api/name/’", paramMap);
-        System.out.println("GET:" + result);
-        return result;
+        return HttpUtil.get("http://localhost:8123/api/name/’", paramMap);
 
     }
 
     public String getNameByPost(@RequestParam String name) {
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("name", name);
-        String result = HttpUtil.post("http://localhost:8123/api/name/", paramMap);
-        System.out.println("POST+URL:" + result);
-        return result;
+        return HttpUtil.post("http://localhost:8123/api/name/", paramMap);
     }
 
     public String getUserNameByPost(@RequestBody User user) {
@@ -70,8 +66,6 @@ public class XuanApiClient {
                 .body(json)
                 .execute();
         System.out.println(httpResponse.getStatus());
-        String result = httpResponse.body();
-        System.out.println("POST+JSON:" + result);
-        return result;
+        return httpResponse.body();
     }
 }

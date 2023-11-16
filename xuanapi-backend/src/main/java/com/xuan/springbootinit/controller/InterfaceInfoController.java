@@ -11,6 +11,7 @@ import com.xuan.springbootinit.constant.UserConstant;
 import com.xuan.springbootinit.exception.BusinessException;
 import com.xuan.springbootinit.exception.ThrowUtils;
 import com.xuan.springbootinit.model.dto.interfaceInfo.InterfaceInfoAddRequest;
+import com.xuan.springbootinit.model.dto.interfaceInfo.InterfaceInfoInvokeRequest;
 import com.xuan.springbootinit.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
 import com.xuan.springbootinit.model.dto.interfaceInfo.InterfaceInfoUpdateRequest;
 import com.xuan.springbootinit.model.entity.InterfaceInfo;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 帖子接口
@@ -36,7 +38,7 @@ import java.util.List;
 public class InterfaceInfoController {
 
     @Resource
-    private InterfaceInfoService InterfaceInfoService;
+    private InterfaceInfoService interfaceInfoService;
 
     @Resource
     private UserService userService;
@@ -44,9 +46,6 @@ public class InterfaceInfoController {
     @Resource
     private XuanApiClient xuanApiClient;
 
-    private final static Gson GSON = new Gson();
-
-    // region 增删改查
 
     /**
      * 创建
@@ -62,10 +61,10 @@ public class InterfaceInfoController {
         }
         InterfaceInfo interfaceInfo = new InterfaceInfo();
         BeanUtils.copyProperties(interfaceAddRequest, interfaceInfo);
-        InterfaceInfoService.validInterfaceInfo(interfaceInfo, true);
+        interfaceInfoService.validInterfaceInfo(interfaceInfo, true);
         User loginUser = userService.getLoginUser(request);
         interfaceInfo.setUserId(loginUser.getId());
-        boolean result = InterfaceInfoService.save(interfaceInfo);
+        boolean result = interfaceInfoService.save(interfaceInfo);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         long newInterfaceInfoId = interfaceInfo.getId();
         return ResultUtils.success(newInterfaceInfoId);
@@ -86,13 +85,13 @@ public class InterfaceInfoController {
         User user = userService.getLoginUser(request);
         long id = deleteRequest.getId();
         // 判断是否存在
-        InterfaceInfo oldInterfaceInfo = InterfaceInfoService.getById(id);
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
         ThrowUtils.throwIf(oldInterfaceInfo == null, ErrorCode.NOT_FOUND_ERROR);
         // 仅本人或管理员可删除
         if (!oldInterfaceInfo.getUserId().equals(user.getId()) && !userService.isAdmin(request)) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
-        boolean b = InterfaceInfoService.removeById(id);
+        boolean b = interfaceInfoService.removeById(id);
         return ResultUtils.success(b);
     }
 
@@ -111,12 +110,12 @@ public class InterfaceInfoController {
         InterfaceInfo interfaceInfo = new InterfaceInfo();
         BeanUtils.copyProperties(interfaceUpdateRequest, interfaceInfo);
         // 参数校验
-        InterfaceInfoService.validInterfaceInfo(interfaceInfo, false);
+        interfaceInfoService.validInterfaceInfo(interfaceInfo, false);
         long id = interfaceUpdateRequest.getId();
         // 判断是否存在
-        InterfaceInfo oldInterfaceInfo = InterfaceInfoService.getById(id);
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
         ThrowUtils.throwIf(oldInterfaceInfo == null, ErrorCode.NOT_FOUND_ERROR);
-        boolean result = InterfaceInfoService.updateById(interfaceInfo);
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
         return ResultUtils.success(result);
     }
 
@@ -126,16 +125,16 @@ public class InterfaceInfoController {
      * @param id
      * @return
      */
-    @GetMapping("/get/vo")
+    @GetMapping("/get")
     public BaseResponse<InterfaceInfo> getInterfaceInfoVOById(long id, HttpServletRequest request) {
         if (id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        InterfaceInfo interfaceInfo = InterfaceInfoService.getById(id);
+        InterfaceInfo interfaceInfo = interfaceInfoService.getById(id);
         if (interfaceInfo == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
-        return ResultUtils.success(InterfaceInfoService.getById(id));
+        return ResultUtils.success(interfaceInfoService.getById(id));
     }
 
     /**
@@ -152,7 +151,7 @@ public class InterfaceInfoController {
             BeanUtils.copyProperties(interfaceInfoQueryRequest, interfaceInfoQuery);
         }
         QueryWrapper<InterfaceInfo> queryWrapper = new QueryWrapper<>(interfaceInfoQuery);
-        List<InterfaceInfo> interfaceInfoList = InterfaceInfoService.list(queryWrapper);
+        List<InterfaceInfo> interfaceInfoList = interfaceInfoService.list(queryWrapper);
         return ResultUtils.success(interfaceInfoList);
     }
 
@@ -185,7 +184,7 @@ public class InterfaceInfoController {
         queryWrapper.like(StringUtils.isNotBlank(description), "description", description);
         queryWrapper.orderBy(StringUtils.isNotBlank(sortField),
                 sortOrder.equals(CommonConstant.SORT_ORDER_ASC), sortField);
-        Page<InterfaceInfo> interfaceInfoPage = InterfaceInfoService.page(new Page<>(current, size), queryWrapper);
+        Page<InterfaceInfo> interfaceInfoPage = interfaceInfoService.page(new Page<>(current, size), queryWrapper);
         return ResultUtils.success(interfaceInfoPage);
     }
 
@@ -208,7 +207,7 @@ public class InterfaceInfoController {
 
         // 1. 判断接口是否存在
         long id = idRequest.getId();
-        InterfaceInfo InterfaceInfo = InterfaceInfoService.getById(id);
+        InterfaceInfo InterfaceInfo = interfaceInfoService.getById(id);
         ThrowUtils.throwIf(InterfaceInfo == null, ErrorCode.NOT_FOUND_ERROR);
 
 
@@ -226,7 +225,7 @@ public class InterfaceInfoController {
         interfaceInfo.setId(id);
         interfaceInfo.setStatus(Integer.valueOf(InterfaceInfoStatusEnum.ONLINE.getValue()));
 
-        boolean result = InterfaceInfoService.updateById(interfaceInfo);
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
         return ResultUtils.success(result);
     }
 
@@ -246,7 +245,7 @@ public class InterfaceInfoController {
 
         // 1. 判断接口是否存在
         long id = idRequest.getId();
-        InterfaceInfo InterfaceInfo = InterfaceInfoService.getById(id);
+        InterfaceInfo InterfaceInfo = interfaceInfoService.getById(id);
         ThrowUtils.throwIf(InterfaceInfo == null, ErrorCode.NOT_FOUND_ERROR);
 
         // 3. 下线
@@ -254,8 +253,47 @@ public class InterfaceInfoController {
         interfaceInfo.setId(id);
         interfaceInfo.setStatus(Integer.valueOf(InterfaceInfoStatusEnum.OFFLINE.getValue()));
 
-        boolean result = InterfaceInfoService.updateById(interfaceInfo);
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
         return ResultUtils.success(result);
     }
 
+    /**
+     * 测试调用
+     *
+     * @param interfaceInfoInvokeRequest
+     * @return
+     */
+    @PostMapping("/invoke")
+    public BaseResponse<Object> invoke(@RequestBody InterfaceInfoInvokeRequest interfaceInfoInvokeRequest, HttpServletRequest request) {
+        if (interfaceInfoInvokeRequest == null || interfaceInfoInvokeRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        // 判断是否存在
+        Long id = interfaceInfoInvokeRequest.getId();
+        InterfaceInfo interfaceInfo = interfaceInfoService.getById(id);
+        if (interfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+
+        // 检查接口状态是否为下线状态
+        if (Objects.equals(interfaceInfo.getStatus(), Integer.valueOf(InterfaceInfoStatusEnum.OFFLINE.getValue()))) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "接口已关闭");
+        }
+
+        String requestParams = interfaceInfoInvokeRequest.getRequestParams();
+        // 获取当前登录用户的ak和sk，这样相当于用户自己的这个身份去调用， 也不会担心它刷接口，因为知道是谁刷了这个接口，会比较安全
+        User loginUser = userService.getLoginUser(request);
+
+        String accessKey = loginUser.getAccessKey();
+        String secretKey = loginUser.getSecretKey();
+        XuanApiClient tempClient = new XuanApiClient(accessKey, secretKey);
+
+        // 我们只需要进行测试调用，所以我们需要解析传递过来的参数。
+        Gson gson = new Gson();
+        // 将用户请求参数转换为com.xuan.xuanapiclientsdk.model.User对象
+        com.example.xuanapiclientsdk.model.User user = gson.fromJson(requestParams, com.example.xuanapiclientsdk.model.User.class);
+        String usernameByPost = tempClient.getUserNameByPost(user);
+        return ResultUtils.success(usernameByPost);
+    }
 }

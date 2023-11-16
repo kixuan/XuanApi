@@ -18,14 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 public class NameController {
     @GetMapping("/get")
     public String getNameByGet(String username) {
-
-
-        return "get:" + username;
+        return "GET:" + username;
     }
 
     @PostMapping("/post")
     public String getNameByPost(@RequestParam String username) {
-        return "post+url" + username;
+        return "POST+URL：" + username;
     }
 
     @PostMapping("/user")
@@ -37,6 +35,11 @@ public class NameController {
         String nonce = httpServletRequest.getHeader("nonce");
         String sign = httpServletRequest.getHeader("sign");
         String timestamp = httpServletRequest.getHeader("timestamp");
+
+        if (user == null || user.getUsername() == null) {
+            // 处理空值情况，例如返回错误响应或抛出自定义异常
+            System.out.println("==================user空值");
+        }
 
         if (!accessKey.equals("123")) {
             throw new RuntimeException("无权限");
@@ -59,7 +62,7 @@ public class NameController {
         }
 
         String username = user.getUsername();
-        return "post+json" + username;
+        return "POST+JSON：" + username;
     }
 
 }
