@@ -1,18 +1,19 @@
-package com.example.xuanapiinterface.client;
+package com.example.xuanapiclientsdk.client;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
-import com.example.xuanapiinterface.model.User;
+import com.example.xuanapiclientsdk.model.User;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.xuanapiinterface.utils.SignUtils.genSign;
+import static com.example.xuanapiclientsdk.utils.SignUtils.genSign;
+
 
 /**
  * @author kixuan

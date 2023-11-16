@@ -1,7 +1,8 @@
 package com.example.xuanapiinterface.controller;
 
-import com.example.xuanapiinterface.model.User;
-import com.example.xuanapiinterface.utils.SignUtils;
+
+import com.example.xuanapiclientsdk.model.User;
+import com.example.xuanapiclientsdk.utils.SignUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

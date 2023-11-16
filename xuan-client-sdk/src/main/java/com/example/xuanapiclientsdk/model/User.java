@@ -1,4 +1,4 @@
-package com.example.xuanapiinterface.model;
+package com.example.xuanapiclientsdk.model;
 
 import lombok.Data;
 

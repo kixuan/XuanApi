@@ -1,4 +1,4 @@
-package com.example.xuanapiinterface.utils;
+package com.example.xuanapiclientsdk.utils;
 
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;

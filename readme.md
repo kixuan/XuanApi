@@ -107,3 +107,7 @@ mark一下是怎么找到这两个bug的
 1. 首先是前端分页接口报404错误，发现add接口同样出错，这个时候是先去怀疑了前端哪里出错了（因为上次就是前端的一个参数写错了，但是前端我也看不懂捏，是从url的一个个参数入手的，先是token，发现没错，直接访问接口不行，但是后端接口文档运行又是可以的，进一步怀疑url，发现是前后端的路径不一样、、、一个是interface，一个是interfaceInfo、、、、
 
 2. 改了上面的问题后分页可以显示，但是add接口还是出错，显示validInterfaceInfo方法的时候name为null，往上一步就是BeanUtils.copyProperties，果然是参数传错了（悲
+
+## point
+
+上传自己的starter到中央maven仓库中
