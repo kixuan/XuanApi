@@ -62,16 +62,17 @@ SDK 轻松地在代码中调用接口。该项目前端简单，后端丰富，�
    3. 测试一下
 4. api签名认证
    1. user表加ak、sk，重新生成代码、重新加一条数据
-   2. 在client传入ak、sk字段
+   2. 在client传入ak、sk字段，请求头传到后端去
    3. 在main中传入ak、sk数据
    4. 在controller校验
    5. 测试一下
+      1. 两个都debug运行才能断点成功
    6. 优化：**防止重放请求**
       1. 建个utils层搞加密算法
       2. client多传时间戳、随机数和加密后的sk
       3. controller页改变检验方式
 
-现在已经实现了调用接口，但是很麻烦欸，所以我们达成jar包搞成sdk，这样开发者只需要关心调用哪些接口传那些参数
+现在已经实现了调用接口，但是很麻烦欸，所以我们打成jar包搞成sdk，这样开发者只需要关心调用哪些接口传那些参数
 
 5. 新建xuanapi-client-sdk
    1. Lombok、Spring Configuration Processor

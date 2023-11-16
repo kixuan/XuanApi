@@ -1,5 +1,6 @@
 package com.example.xuanapiinterface.client;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.xuanapiinterface.utils.SignUtils.genSign;
 
 /**
  * @author kixuan
@@ -26,12 +29,16 @@ public class XuanApiClient {
     }
 
     /**
-     * @return
+     * 构建请求头
      */
-    private Map<String, String> getHeaderMap() {
+    private Map<String, String> getHeaderMap(String body) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("accessKey", accessKey);
         hashMap.put("secretKey", secretKey);
+        hashMap.put("body", body);
+        hashMap.put("nonce", RandomUtil.randomNumbers(4));
+        hashMap.put("timestamp", String.valueOf(System.currentTimeMillis() / 1000));
+        hashMap.put("sign", genSign(body, secretKey));
         return hashMap;
     }
 
@@ -58,7 +65,7 @@ public class XuanApiClient {
         String url = "http://localhost:8123/api/name/user";
         HttpResponse httpResponse = HttpRequest.post(url)
                 // 构建请求头
-                .addHeaders(getHeaderMap())
+                .addHeaders(getHeaderMap(json))
                 .body(json)
                 .execute();
         System.out.println(httpResponse.getStatus());
