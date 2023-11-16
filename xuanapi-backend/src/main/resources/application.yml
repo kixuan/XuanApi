@@ -89,3 +89,8 @@ cos:
     secretKey: xxx
     region: xxx
     bucket: xxx
+
+xuanapi:
+  client:
+    access-key: "123"
+    secret-key: "123"

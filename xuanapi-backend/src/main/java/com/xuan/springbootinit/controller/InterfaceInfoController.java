@@ -2,12 +2,10 @@ package com.xuan.springbootinit.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.xuanapiclientsdk.client.XuanApiClient;
 import com.google.gson.Gson;
 import com.xuan.springbootinit.annotation.AuthCheck;
-import com.xuan.springbootinit.common.BaseResponse;
-import com.xuan.springbootinit.common.DeleteRequest;
-import com.xuan.springbootinit.common.ErrorCode;
-import com.xuan.springbootinit.common.ResultUtils;
+import com.xuan.springbootinit.common.*;
 import com.xuan.springbootinit.constant.CommonConstant;
 import com.xuan.springbootinit.constant.UserConstant;
 import com.xuan.springbootinit.exception.BusinessException;
@@ -17,6 +15,7 @@ import com.xuan.springbootinit.model.dto.interfaceInfo.InterfaceInfoQueryRequest
 import com.xuan.springbootinit.model.dto.interfaceInfo.InterfaceInfoUpdateRequest;
 import com.xuan.springbootinit.model.entity.InterfaceInfo;
 import com.xuan.springbootinit.model.entity.User;
+import com.xuan.springbootinit.model.enums.InterfaceInfoStatusEnum;
 import com.xuan.springbootinit.service.InterfaceInfoService;
 import com.xuan.springbootinit.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +40,9 @@ public class InterfaceInfoController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private XuanApiClient xuanApiClient;
 
     private final static Gson GSON = new Gson();
 
@@ -185,6 +187,75 @@ public class InterfaceInfoController {
                 sortOrder.equals(CommonConstant.SORT_ORDER_ASC), sortField);
         Page<InterfaceInfo> interfaceInfoPage = InterfaceInfoService.page(new Page<>(current, size), queryWrapper);
         return ResultUtils.success(interfaceInfoPage);
+    }
+
+
+    /**
+     * 发布（仅管理员）
+     * 1. 是否存在
+     * 2. 是否可以调用
+     * 3. 是否已发布
+     *
+     * @param idRequest
+     * @return
+     */
+    @PostMapping("/online")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Boolean> online(@RequestBody IdRequest idRequest) {
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        // 1. 判断接口是否存在
+        long id = idRequest.getId();
+        InterfaceInfo InterfaceInfo = InterfaceInfoService.getById(id);
+        ThrowUtils.throwIf(InterfaceInfo == null, ErrorCode.NOT_FOUND_ERROR);
+
+
+        // 2. 判断接口是否可以使用  -- 用xuanClient模拟调用一下
+        com.example.xuanapiclientsdk.model.User user = new com.example.xuanapiclientsdk.model.User();
+        user.setUsername("xuan");
+        String userNameByPost = xuanApiClient.getUserNameByPost(user);
+        if (StringUtils.isBlank(userNameByPost)) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口验证失败");
+        }
+
+        // 3. 发布
+        // 这里只是上线啦，注意区分上线和添加
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(Integer.valueOf(InterfaceInfoStatusEnum.ONLINE.getValue()));
+
+        boolean result = InterfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
+
+
+    /**
+     * 下线（仅管理员）
+     *
+     * @param idRequest
+     * @return
+     */
+    @PostMapping("/offline")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Boolean> offline(@RequestBody IdRequest idRequest) {
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        // 1. 判断接口是否存在
+        long id = idRequest.getId();
+        InterfaceInfo InterfaceInfo = InterfaceInfoService.getById(id);
+        ThrowUtils.throwIf(InterfaceInfo == null, ErrorCode.NOT_FOUND_ERROR);
+
+        // 3. 下线
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(Integer.valueOf(InterfaceInfoStatusEnum.OFFLINE.getValue()));
+
+        boolean result = InterfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
     }
 
 }
