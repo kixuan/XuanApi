@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/XuanApi.iml" filepath="$PROJECT_DIR$/.idea/XuanApi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xuanapi-backend/xuanapi-backend.iml" filepath="$PROJECT_DIR$/xuanapi-backend/xuanapi-backend.iml" />
     </modules>
   </component>
 </project>

@@ -18,6 +18,7 @@ xuanapi-backend/target/
 *.iws
 *.iml
 *.ipr
+*.xml
 
 ### NetBeans ###
 /nbproject/private/

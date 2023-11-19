@@ -1,0 +1,39 @@
+server:
+  port: 8090
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: after_route
+          uri: https://kixuan.github.io/
+          predicates:
+            #  哇趣注意不要空格
+            - After=2018-01-20T06:06:06+08:00[Asia/Shanghai]
+            - Path=/123/**
+        # 将所有以 /api/ 开头的请求转发到 http://localhost:8123 上的目标服务。
+        - id: api_route
+          uri: http://localhost:8123
+          predicates:
+            - Path=/api/**
+            # 拦截器：添加请求头
+          filters:
+            - AddRequestHeader=xuan,past
+            - AddRequestParameter=username,xuan
+            # 定义了一个断路器过滤器，用于实现降级功能
+            - name: CircuitBreaker
+              args:
+                name: myCircuitBreaker
+                fallbackUri: forward:/fallback
+        #        定义了一组断言，跳转到指定路径
+        - id: fallback_route
+          uri: https://kixuan.github.io/
+          predicates:
+            - Path=/fallback
+      default-filters:
+        - AddResponseHeader=source, xuan
+#    discovery:
+#      enabled: true
+# 打印详细日志
+logging:
+  level:
+    org.springframework.cloud.gateway: trace

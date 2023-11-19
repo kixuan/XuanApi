@@ -27,7 +27,7 @@ SDK 轻松地在代码中调用接口。该项目前端简单，后端丰富，�
     2. 项目瘦身（注意）
     2.
 
-## 报错
+### 报错
 
 1. 前端运行dev的时候报错显示`'cross-env' 不是内部或外部命令，也不是可运行的程序`
 
@@ -39,7 +39,7 @@ SDK 轻松地在代码中调用接口。该项目前端简单，后端丰富，�
 
 
 
-
+## 第二期
 
 列一下第二节的思路
 
@@ -88,6 +88,8 @@ SDK 轻松地在代码中调用接口。该项目前端简单，后端丰富，�
 
 
 
+## 第三期
+
 第三节思路：
 
 1. 发布/下线接口
@@ -110,6 +112,66 @@ mark一下是怎么找到这两个bug的
 1. 首先是前端分页接口报404错误，发现add接口同样出错，这个时候是先去怀疑了前端哪里出错了（因为上次就是前端的一个参数写错了，但是前端我也看不懂捏，是从url的一个个参数入手的，先是token，发现没错，直接访问接口不行，但是后端接口文档运行又是可以的，进一步怀疑url，发现是前后端的路径不一样、、、一个是interface，一个是interfaceInfo、、、、
 
 2. 改了上面的问题后分页可以显示，但是add接口还是出错，显示validInterfaceInfo方法的时候name为null，往上一步就是BeanUtils.copyProperties，果然是参数传错了（悲
+
+
+
+## 第四期
+
+1. 调用次数统计
+   1. 就是加个表啦
+2. 网关知识点讲解（阅读官方文档）
+
+
+
+网关的作用：
+
+1. 路由：起到转发的作用，比如有接口 A 和接口 B，网关会记录这些信息，根据用户访问的地址和参数，转发请求到对应的接口（服务器 / 集群）。
+   /a => 接口A
+   /b => 接口B
+   参考文档：[The After Route Predicate Factory](https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-after-route-predicate-factory)。
+2. 负载均衡：在路由的基础上。
+   /c => 服务 A / 集群 A（随机转发到其中的某一个机器）
+   uri 从固定地址改成 lb:xxxx
+3. 统一处理跨域：网关统一处理跨域，不用在每个项目里单独处理。
+   参考文档：[Global CORS Configuration](https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#global-cors-configuration)。
+4. 发布控制：灰度发布，比如上线新接口，先给新接口分配 20% 的流量，老接口 80%，再慢慢调整比重。
+   参考文档：[The Weight Route Predicate Factory](https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-weight-route-predicate-factory)。
+5. 流量染色：给请求（流量）添加一些标识，一般是设置请求头中，添加新的请求头。
+   参考文档：[TheAddRequestHeaderGatewayFilterFactory](https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-addrequestheader-gatewayfilter-factory)。
+6. 全局染色：[Default Filters](https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#default-filters)。
+7. 统一接口保护：
+   1. 限制请求：[requestheadersize-gatewayfilter-factory](https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#requestheadersize-gatewayfilter-factory)。
+   2. 信息脱敏：[the-removerequestheader-gatewayfilter-factory](https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-removerequestheader-gatewayfilter-factory)。
+   3. 降级（熔断）：[fallback-headers](https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#fallback-headers)。
+   4. 限流：[the-requestratelimiter-gatewayfilter-factory](https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-requestratelimiter-gatewayfilter-factory)。
+   5. 超时时间：[http-timeouts-configuration](https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#http-timeouts-configuration)。
+   6. 重试（业务保护）：[the-retry-gatewayfilter-factory](https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-retry-gatewayfilter-factory)。
+8. 统一业务处理：把一些每个项目中都要做的通用逻辑放到上层（网关），统一处理，比如本项目的次数统计。
+9. 统一鉴权：判断用户是否有权限进行操作，无论访问什么接口，我都统一去判断权限，不用重复写。
+10. 访问控制：黑白名单，比如限制 DDOS IP。
+11. 统一日志：统一的请求、响应信息记录。
+12. 统一文档：将下游项目的文档进行聚合，在一个页面统一查看。
+    建议用：[knife4j 文档](https://doc.xiaominfo.com/docs/middleware-sources/aggregation-introduction)。
+
+
+
+阅读SpringCloudGateWay官方文档
+
+1. 编程式和参数式
+2. 路由规则
+   ![image-20231120001655524](https://cdn.jsdelivr.net/gh/kixuan/PicGo/images/image-20231120001655524.png)
+
+![image-20231120012417130](https://cdn.jsdelivr.net/gh/kixuan/PicGo/images/image-20231120012417130.png)
+
+## 第五期
+
+## 第六期
+
+## 第七期
+
+
+
+
 
 ## point
 

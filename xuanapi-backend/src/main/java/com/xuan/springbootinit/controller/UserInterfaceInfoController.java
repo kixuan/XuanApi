@@ -31,7 +31,7 @@ import java.util.List;
  * 帖子接口
  */
 @RestController
-@RequestMapping("/userUserInterfaceInfo")
+@RequestMapping("/UserInterfaceInfo")
 @Slf4j
 public class UserInterfaceInfoController {
 

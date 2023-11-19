@@ -7,6 +7,12 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/mybatisx" />
       <excludeFolder url="file://$MODULE_DIR$/xuanapi-frontend/src/.umi" />
+      <excludeFolder url="file://$MODULE_DIR$/xuan-client-sdk/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/xuan-client-sdk/target" />
+      <excludeFolder url="file://$MODULE_DIR$/xuanapi-frontend/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/xuanapi-gateway/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/xuanapi-interface/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/xuanapi-interface/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

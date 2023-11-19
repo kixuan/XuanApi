@@ -13,11 +13,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 // 哇趣注意这里不用/name直接name
-@RequestMapping("name")
+@RequestMapping("/")
 @RestController
 public class NameController {
-    @GetMapping("/get")
-    public String getNameByGet(String username) {
+    @GetMapping("/name")
+    public String getNameByGet(String username, HttpServletRequest httpServletRequest) {
+        System.out.println(httpServletRequest.getHeader("xuan"));
         return "GET:" + username;
     }
 
