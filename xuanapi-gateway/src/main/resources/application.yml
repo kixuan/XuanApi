@@ -15,6 +15,8 @@ spring:
           uri: http://localhost:8123
           predicates:
             - Path=/api/**
+            #            这种的话就只能匹配一个后缀
+            #            - Path=/api/{api_url}
             # 拦截器：添加请求头
           filters:
             - AddRequestHeader=xuan,past
@@ -37,3 +39,6 @@ spring:
 logging:
   level:
     org.springframework.cloud.gateway: trace
+
+
+

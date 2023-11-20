@@ -165,6 +165,107 @@ mark一下是怎么找到这两个bug的
 
 ## 第五期
 
+业务逻辑：
+
+1. 用户发请求到API网关
+
+2. 请求日志
+
+   1. 就在全局拦截器里面写
+
+   ```java
+       ServerHttpRequest request = exchange.getRequest();
+           System.out.println("请求id：" + request.getId());
+           System.out.println("请求路径：" + request.getPath());
+           System.out.println("请求方法：" + request.getMethodValue());
+           System.out.println("请求参数：" + request.getQueryParams());
+           System.out.println("请求头：" + request.getHeaders());
+           System.out.println("请求来源地址" + request.getRemoteAddress().toString());
+   ```
+
+3. 黑白名单
+
+   ```java
+     String sourceAddress = request.getLocalAddress().getHostString();
+           ServerHttpResponse response = exchange.getResponse();
+           if (!IP_WHITE_LIST.contains(sourceAddress)) {
+               // 403 禁止访问
+           response.setStatusCode(HttpStatus.FORBIDDEN);
+               return response.setComplete();
+           }
+   ```
+
+
+4. 用户鉴权（ak、sk）
+
+   ```java
+          // 3. 用户鉴权：aksk
+           HttpHeaders headers = request.getHeaders();
+           String accessKey = headers.getFirst("accessKey");
+           // 不能直接获取secretKey，这样很容易被截胡到
+           // String secretKey = httpServletRequest.getHeader("secretKey");
+           String body = headers.getFirst("body");
+           String nonce = headers.getFirst("nonce");
+           String sign = headers.getFirst("sign");
+           String timestamp = headers.getFirst("timestamp");
+   
+   
+           if (!accessKey.equals("123")) {
+               throw new RuntimeException("无权限");
+           }
+   
+           // todo:检测随机数（）正常来说应该是放进redis或者数据库中，这里简单处理
+           if (Integer.parseInt(nonce) > 10000) {
+               throw new RuntimeException("随机数错误");
+           }
+   
+           // 检验时间戳与当前时间差距不能超过5分钟
+           if (Long.parseLong(timestamp) - System.currentTimeMillis() / 1000 > 5 * 60) {
+               throw new RuntimeException("请求超时");
+           }
+   
+           // 这个时候再检验sign，todo:从数据库中查出secretKey，并且和现在的进行比较
+           String serverSign = SignUtils.genSign(body, "123");
+           if (!sign.equals(serverSign)) {
+               throw new RuntimeException("无权限");
+           }
+   ```
+
+
+5. 请求的模拟接口是否存在
+
+6. **请求转发，调用模拟接口**
+
+   1. 前缀匹配路由器：http://localhost:8090/api/name/get?name=xuan转发到http://localhost:8123/api/name/get?name=xuan
+
+7. 响应日志
+
+8. 成功的话次数+1
+
+全局拦截器
+
+```java
+
+@Slf4j
+@Component// 哇趣别忘了这个
+public class CustomGlobalFilter implements GlobalFilter, Ordered {
+
+   @Override
+   public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+      log.info("custom global filter");
+      return chain.filter(exchange);
+   }
+
+   @Override
+   public int getOrder() {
+      return -1;
+   }
+}
+```
+
+注意client项目不要引入`spring-boot-starter-web`
+，因为SpringCloudGateway和SpringMVC有冲突，我们的gateway项目引入这个client的话相当于引入了SpringMvc，就会报错
+
 ## 第六期
 
 ## 第七期

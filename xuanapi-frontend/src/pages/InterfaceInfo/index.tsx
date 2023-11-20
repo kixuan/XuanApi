@@ -1,11 +1,11 @@
-import { PageContainer } from '@ant-design/pro-components';
-import React, { useEffect, useState } from 'react';
-import {Button, Card, Descriptions, Form, message, Input, Spin, Divider} from 'antd';
+import {PageContainer} from '@ant-design/pro-components';
+import React, {useEffect, useState} from 'react';
+import {Button, Card, Descriptions, Divider, Form, Input, message} from 'antd';
 import {
   getInterfaceInfoByIdUsingGET,
   invokeInterfaceInfoUsingPOST,
 } from '@/services/xuanapi-backend/interfaceInfoController';
-import { useParams } from '@@/exports';
+import {useParams} from '@@/exports';
 
 /**
  * 主页
@@ -81,7 +81,8 @@ const Index: React.FC = () => {
       <Divider />
       <Card title="在线测试">
         <Form name="invoke" layout="vertical" onFinish={onFinish}>
-          <Form.Item label="请求参数" name="userRequestParams">
+          {/*你小子我恨，就是你让我一个半小时找不出bug*/}
+          <Form.Item label="请求参数" name="requestParams">
             <Input.TextArea />
           </Form.Item>
           <Form.Item wrapperCol={{ span: 16 }}>

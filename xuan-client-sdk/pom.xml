@@ -11,7 +11,7 @@
     <groupId>com.example</groupId>
     <artifactId>xuan-client-sdk</artifactId>
     <!--    这个就是版本号的意思-->
-    <version>0.0.2</version>
+    <version>0.0.4</version>
     <name>xuan-client-sdk</name>
     <description>xuan-client-sdk</description>
     <properties>
@@ -38,10 +38,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+        <!--        注意咧不要引入这个东西，因为SpringCloudGateway和SpringMVC有冲突，我们的gateway项目引入这个client的话相当于引入了SpringMvc，就会报错-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-web</artifactId>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>cn.hutool</groupId>
