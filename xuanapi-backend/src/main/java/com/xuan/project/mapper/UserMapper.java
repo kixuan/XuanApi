@@ -1,7 +1,7 @@
 package com.xuan.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xuan.project.model.entity.User;
+import com.xuan.xuancommon.model.entity.User;
 
 /**
  * 用户数据库操作

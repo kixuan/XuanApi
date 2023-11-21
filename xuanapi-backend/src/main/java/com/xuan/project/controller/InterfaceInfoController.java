@@ -14,11 +14,11 @@ import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoAddRequest;
 import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoInvokeRequest;
 import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
 import com.xuan.project.model.dto.interfaceInfo.InterfaceInfoUpdateRequest;
-import com.xuan.project.model.entity.InterfaceInfo;
-import com.xuan.project.model.entity.User;
 import com.xuan.project.model.enums.InterfaceInfoStatusEnum;
 import com.xuan.project.service.InterfaceInfoService;
 import com.xuan.project.service.UserService;
+import com.xuan.xuancommon.model.entity.InterfaceInfo;
+import com.xuan.xuancommon.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * 帖子接口
+ * 接口管理
  */
 @RestController
 @RequestMapping("/interfaceInfo")

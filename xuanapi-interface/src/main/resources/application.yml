@@ -3,7 +3,7 @@ server:
   servlet:
     context-path: /api
 #  引入xuanapi的sdk
-xuanapi:
-  client:
-    access-key: "123"
-    secret-key: "123"
+#xuanapi:
+#  client:
+#    access-key: "123"
+#    secret-key: "123"

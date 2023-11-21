@@ -8,20 +8,18 @@ import com.xuan.project.common.ErrorCode;
 import com.xuan.project.constant.CommonConstant;
 import com.xuan.project.exception.BusinessException;
 import com.xuan.project.exception.ThrowUtils;
-import com.xuan.project.mapper.PostFavourMapper;
 import com.xuan.project.mapper.PostMapper;
-import com.xuan.project.mapper.PostThumbMapper;
 import com.xuan.project.model.dto.post.PostEsDTO;
 import com.xuan.project.model.dto.post.PostQueryRequest;
 import com.xuan.project.model.entity.Post;
 import com.xuan.project.model.entity.PostFavour;
 import com.xuan.project.model.entity.PostThumb;
-import com.xuan.project.model.entity.User;
 import com.xuan.project.model.vo.PostVO;
 import com.xuan.project.model.vo.UserVO;
 import com.xuan.project.service.PostService;
 import com.xuan.project.service.UserService;
 import com.xuan.project.utils.SqlUtils;
+import com.xuan.xuancommon.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -56,11 +54,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     @Resource
     private UserService userService;
 
-    @Resource
-    private PostThumbMapper postThumbMapper;
-
-    @Resource
-    private PostFavourMapper postFavourMapper;
 
     @Resource
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
@@ -244,15 +237,15 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             postThumbQueryWrapper.lambda()
                     .in(PostThumb::getPostId, postId)
                     .eq(PostThumb::getUserId, loginUser.getId());
-            PostThumb postThumb = postThumbMapper.selectOne(postThumbQueryWrapper);
-            postVO.setHasThumb(postThumb != null);
+            // PostThumb postThumb = postThumbMapper.selectOne(postThumbQueryWrapper);
+            // postVO.setHasThumb(postThumb != null);
             // 获取收藏
             QueryWrapper<PostFavour> postFavourQueryWrapper = new QueryWrapper<>();
             postFavourQueryWrapper.lambda()
                     .in(PostFavour::getPostId, postId)
                     .eq(PostFavour::getUserId, loginUser.getId());
-            PostFavour postFavour = postFavourMapper.selectOne(postFavourQueryWrapper);
-            postVO.setHasFavour(postFavour != null);
+            // PostFavour postFavour = postFavourMapper.selectOne(postFavourQueryWrapper);
+            // postVO.setHasFavour(postFavour != null);
         }
         return postVO;
     }
@@ -281,15 +274,15 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             postThumbQueryWrapper.lambda()
                     .in(PostThumb::getPostId, postIdSet)
                     .eq(PostThumb::getUserId, loginUser.getId());
-            List<PostThumb> postPostThumbList = postThumbMapper.selectList(postThumbQueryWrapper);
-            postPostThumbList.forEach(postPostThumb -> postIdHasThumbMap.put(postPostThumb.getPostId(), true));
+            // List<PostThumb> postPostThumbList = postThumbMapper.selectList(postThumbQueryWrapper);
+            // postPostThumbList.forEach(postPostThumb -> postIdHasThumbMap.put(postPostThumb.getPostId(), true));
             // 获取收藏
             QueryWrapper<PostFavour> postFavourQueryWrapper = new QueryWrapper<>();
             postFavourQueryWrapper.lambda()
                     .in(PostFavour::getPostId, postIdSet)
                     .eq(PostFavour::getUserId, loginUser.getId());
-            List<PostFavour> postFavourList = postFavourMapper.selectList(postFavourQueryWrapper);
-            postFavourList.forEach(postFavour -> postIdHasFavourMap.put(postFavour.getPostId(), true));
+            // List<PostFavour> postFavourList = postFavourMapper.selectList(postFavourQueryWrapper);
+            // postFavourList.forEach(postFavour -> postIdHasFavourMap.put(postFavour.getPostId(), true));
         }
         // 填充信息
         List<PostVO> postVOList = postList.stream().map(post -> {

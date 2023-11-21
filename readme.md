@@ -289,13 +289,33 @@ Nacos：[Nacos 快速开始](https://nacos.io/zh-cn/docs/v2/quickstart/quick-sta
 
 Dubbo 配置Nacos：https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/registry/nacos/
 
-
+写个demo在gateway项目里面调用backend的方法
 
 ## 第七期
 
+后端网关业务：
 
+1. 实际情况应该是去数据库中查是否已分配给用户秘钥（ak、sk是否合法）
+    1. 先根据 accessKey 判断用户是否存在，查到 secretKey
+    2. 对比 secretKey 和用户传的加密后的 secretKey 是否一致
+2. 从数据库中查询模拟接口是否存在，以及请求方法是否匹配（还可以校验请求参数）
+3. 调用成功，接口调用次数 + 1 invokeCount
 
+创建一个公共服务：xuanapi-common
 
+**目的**：让方法、实体类在多个项目间复用，减少重复编写。
+
+**步骤**：
+
+1. 新建干净的 maven 项目，只保留必要的公共依赖
+2. 抽取 service 和实体类
+3. install 本地 maven 包
+4. 让服务提供者引入 common 包，测试是否正常运行
+5. 让服务消费者引入 common 包
+
+wokao太乱了我脑子都要炸了
+
+我们的网关没有校验用户是否还有调用次数，这个一定要放在发送请求前
 
 ## point
 

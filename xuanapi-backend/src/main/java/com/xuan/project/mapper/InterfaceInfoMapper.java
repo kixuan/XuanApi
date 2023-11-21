@@ -1,7 +1,7 @@
 package com.xuan.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xuan.project.model.entity.InterfaceInfo;
+import com.xuan.xuancommon.model.entity.InterfaceInfo;
 
 /**
  * @author 醒酒器
@@ -10,7 +10,6 @@ import com.xuan.project.model.entity.InterfaceInfo;
  * @Entity com.xuan.springbootinit.model.entity.InterfaceInfo
  */
 public interface InterfaceInfoMapper extends BaseMapper<InterfaceInfo> {
-
 }
 
 

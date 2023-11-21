@@ -11,10 +11,10 @@ import com.xuan.project.constant.UserConstant;
 import com.xuan.project.exception.BusinessException;
 import com.xuan.project.exception.ThrowUtils;
 import com.xuan.project.model.dto.user.*;
-import com.xuan.project.model.entity.User;
 import com.xuan.project.model.vo.LoginUserVO;
 import com.xuan.project.model.vo.UserVO;
 import com.xuan.project.service.UserService;
+import com.xuan.xuancommon.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
@@ -253,7 +253,7 @@ public class UserController {
     }
 
     /**
-     * 分页获取用户封装列表
+     * 分页获取用户列表
      *
      * @param userQueryRequest
      * @param request
@@ -278,26 +278,4 @@ public class UserController {
     }
 
     // endregion
-
-    /**
-     * 更新个人信息
-     *
-     * @param userUpdateMyRequest
-     * @param request
-     * @return
-     */
-    @PostMapping("/update/my")
-    public BaseResponse<Boolean> updateMyUser(@RequestBody UserUpdateMyRequest userUpdateMyRequest,
-                                              HttpServletRequest request) {
-        if (userUpdateMyRequest == null) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
-        User loginUser = userService.getLoginUser(request);
-        User user = new User();
-        BeanUtils.copyProperties(userUpdateMyRequest, user);
-        user.setId(loginUser.getId());
-        boolean result = userService.updateById(user);
-        ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
-        return ResultUtils.success(true);
-    }
 }

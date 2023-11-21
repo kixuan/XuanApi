@@ -1,15 +1,16 @@
 package com.xuan.project.service;
 
+
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xuan.project.model.entity.InterfaceInfo;
+import com.xuan.xuancommon.model.entity.InterfaceInfo;
 
 /**
- * @author 醒酒器
- * @description 针对表【interface_info(接口信息)】的数据库操作Service
- * @createDate 2023-11-13 20:21:40
+ * 接口信息服务
+ *
+ * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
+ * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 public interface InterfaceInfoService extends IService<InterfaceInfo> {
-
 
     void validInterfaceInfo(InterfaceInfo interfaceInfo, boolean add);
 }
