@@ -2,6 +2,8 @@ server:
   port: 8090
 spring:
   cloud:
+    inetutils:
+      preferred-networks=192.168.52.86:8848
     gateway:
       routes:
         - id: after_route
@@ -36,9 +38,27 @@ spring:
 #    discovery:
 #      enabled: true
 # 打印详细日志
-logging:
-  level:
-    org.springframework.cloud.gateway: trace
+#logging:
+#  level:
+#    org.springframework.cloud.gateway: trace
 
-
+# 以下配置指定了应用的名称、使用的协议（Dubbo）、注册中心的类型（Nacos）和地址
+dubbo:
+  application:
+    # 设置应用的名称
+    name: dubbo-springboot-demo-provider
+    enable-file-cache: false
+    qosEnable: ture
+    qosPort: 33333
+    qosAcceptForeignIp: false
+  # 指定使用 Dubbo 协议，且端口设置为 -1，表示随机分配可用端口
+  protocol:
+    name: dubbo
+    port: 22225
+  registry:
+    # 配置注册中心为 Nacos，使用的地址是 nacos://localhost:8848
+    id: nacos-registry
+    address: nacos://localhost:8848
+    parameters:
+      register-consumer-url=true
 

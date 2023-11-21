@@ -263,10 +263,33 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
 }
 ```
 
-注意client项目不要引入`spring-boot-starter-web`
+Bug1：注意client项目不要引入`spring-boot-starter-web`
 ，因为SpringCloudGateway和SpringMVC有冲突，我们的gateway项目引入这个client的话相当于引入了SpringMvc，就会报错
 
+BUG2：在线请求接口的时候一直报错415，一开始一直觉得是contenttype的问题
+后面跑去backend项目打了下断点才发现requestprarm根本没取到
+马上翻到前端去找，果然是参数命名的问题
+改了之后显示无权限，这个应该是accesskey传过来的时候加密了所以和数据库之前写的不一样，改成加密前的就跑通了
+
 ## 第六期
+
+RPC：作用：像调用本地方法一样调用远程方法。
+
+![image-20231120203146979](https://cdn.jsdelivr.net/gh/kixuan/PicGo/images/image-20231120203146979.png)
+
+1. 提供者（Producer/Provider）： 首先，我们需要一个项目来提供方法，这个项目被称为提供者。它的主要任务是为其他人提供已经写好的代码，让其他人可以使用。举例来说，我们可以提供一个名为 invokeCount 的方法。
+2.  调用方（Invoker/Consumer）： 一旦服务提供者提供了服务，调用方需要能够找到这个服务的位置。这就需要一个存储，用于存储已提供的方法，调用方需要知道提供者的地址和 invokeCount 方法，这里需要一个公共的存储。
+3. 存储： 这是一个公共存储，用于存储提供者提供的方法信息。调用方可以从这个存储中获取提供者的地址和方法信息，例如，提供者的地址可能是 123.123.123.1，而方法是 invokeCount，这些信息会存储在这个存储器中。
+
+调用方可以从存储中获取信息后，就知道调用 invokeCount 方法时需要访问 123.123.123.1，这就是 RPC 的基本流程，这三个角色构成了整个 RPC 模型。
+
+Dubbo
+
+Nacos：[Nacos 快速开始](https://nacos.io/zh-cn/docs/v2/quickstart/quick-start.html)
+
+Dubbo 配置Nacos：https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/registry/nacos/
+
+
 
 ## 第七期
 
